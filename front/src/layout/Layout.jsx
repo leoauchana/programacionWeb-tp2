@@ -12,7 +12,7 @@ const Navigation = () => {
                         Pagina Principal
                     </NavLink>
                 </li>
-                <li className={location.pathname === '/alumns' ? 'link-selected' : ''}>
+                <li className={location.pathname === '/alumns' || location.pathname === '/alumns/form' ? 'link-selected' : ''}>
                     <NavLink to={'/alumns'}>
                         Alumnos
                     </NavLink>

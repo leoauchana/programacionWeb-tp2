@@ -9,14 +9,17 @@
     align-items: center;
     box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.75);
     padding: 0 20px;
+    margin-bottom: 20px;
 }
 
+.actions-margin button:not(:last-child){
+    margin: 5px;
+}
 
-.actions-class button{
-    background-color: darkturquoise;
-    color: white;
-    padding: 7px;
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.75);
-    border-radius: 5px;
-    border: none;
+.actions-margin button:hover{
+    background-color: paleturquoise;
+}
+
+.main-content{
+    margin: 0 10px;
 }

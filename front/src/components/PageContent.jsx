@@ -7,12 +7,13 @@ return (
             <div>
                 <h2>{headerTitle}</h2>
             </div>
-            <div className='actions-class'>
+            <div className='actions-margin'>
                 {[...actions]}
             </div>
         </header>
-        <main>
+        <main className='main-content'>
             {children}
+
         </main>
     </div>
 )

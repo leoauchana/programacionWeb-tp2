@@ -1,0 +1,151 @@
+table{
+    width: 100%;
+}
+
+
+table, tr, th, td{
+    border: thin solid black;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+th, td{
+    text-align: center;
+}
+
+th{
+    font-size: 15px;
+}
+
+.actions-class {
+    background-color: darkturquoise;
+    color: white;
+    padding: 7px;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.actions-class-back{
+    background-color: lightcoral;
+    color: white;
+    padding: 7px;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.action-accepted button:hover{
+    background-color: paleturquoise;
+}
+
+.card-style{
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
+    margin: 0 20px;
+}
+
+
+.content-label-name{
+    text-align: left;
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+
+.content-label-last{
+    text-align: left;
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+
+.content-input-name{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.content-input-last{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+
+.content-label-dni{
+    text-align: left;
+    grid-column: 1/2;
+    grid-row: 5/6;
+}
+
+.content-input-dni{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 5/6;
+}
+.content-label-email{
+    text-align: left;
+    grid-column: 1/2;
+    grid-row: 7/8;
+}
+
+.content-input-email{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 7/8;
+}
+
+.content-input-button{
+    text-align: left;
+    grid-column: 1/2;
+    grid-row: 9/10;
+}
+
+.content-form{
+    padding: 20px 0px;
+    width: 100%;
+    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.75);
+}
+
+.form-style{
+        display: grid;
+        height: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(9, 1fr);
+        padding: 0 60px;    
+}
+
+.form-style input{
+    width: 100%;
+}
+
+.button-search{
+    background-color: powderblue;
+    border-radius: 5px;
+}
+
+.button-search:hover{
+    background-color: darkslateblue;
+    cursor: pointer;
+}
+
+.search-alumn{
+    display: flex;
+    margin-bottom: 5px;
+
+}
+
+.text-search{
+    flex-grow: 1;
+}
+
+.table-alumns{
+    padding: 0 10px;
+}
+
+.table-style{
+        width: 100%;
+        border: 1;
+        border-collapse: collapse;
+}
