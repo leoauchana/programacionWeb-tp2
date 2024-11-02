@@ -17,6 +17,11 @@ th{
     font-size: 15px;
 }
 
+p{
+    margin: 0;
+    color: tomato;
+}
+
 .actions-class {
     background-color: darkturquoise;
     color: white;
@@ -28,13 +33,16 @@ th{
 }
 
 .actions-class-back{
-    background-color: lightcoral;
+    background-color: red;
     color: white;
     padding: 7px;
     box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.75);
     border-radius: 5px;
     border: none;
     cursor: pointer;
+}
+.actions-class-back:hover{
+    background-color: tomato;
 }
 
 .action-accepted button:hover{
@@ -47,7 +55,6 @@ th{
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
     margin: 0 20px;
 }
-
 
 .content-label-name{
     text-align: left;
@@ -67,12 +74,23 @@ th{
     grid-row: 1/2;
 }
 
+.content-input-error-name{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
 .content-input-last{
     text-align: end;
     grid-column: 2/3;
     grid-row: 3/4;
 }
 
+.content-input-error-last{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 4/5;
+}
 .content-label-dni{
     text-align: left;
     grid-column: 1/2;
@@ -84,6 +102,13 @@ th{
     grid-column: 2/3;
     grid-row: 5/6;
 }
+
+.content-input-error-dni{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 6/7;
+}
+
 .content-label-email{
     text-align: left;
     grid-column: 1/2;
@@ -94,6 +119,12 @@ th{
     text-align: end;
     grid-column: 2/3;
     grid-row: 7/8;
+}
+
+.content-input-error-email{
+    text-align: end;
+    grid-column: 2/3;
+    grid-row: 8/9;
 }
 
 .content-input-button{
@@ -148,4 +179,13 @@ th{
         width: 100%;
         border: 1;
         border-collapse: collapse;
+}
+
+.title-main{
+    color: purple;
+}
+
+.title-main:hover{
+    cursor: pointer;
+    color: tomato;
 }

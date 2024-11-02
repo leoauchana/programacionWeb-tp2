@@ -1,14 +1,15 @@
 const express = require('express');
-const routerAlumns = require('./routes/alumnsRoute');
+const morgan = require('morgan');
+const routerStudents = require('./routes/studentsRoute');
 const app = express();
+require('./config/setupModel');
 
 //Settings
 app.set('port',3000);
 
-
+app.use(morgan('dev'));
 app.use(express.json());
-app.use('api/alumns',routerAlumns);
-
+app.use('/api/students',routerStudents);
 
 
 

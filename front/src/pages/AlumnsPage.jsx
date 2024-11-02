@@ -2,6 +2,7 @@ import PageContent from "../components/PageContent";
 import { useNavigate }  from 'react-router-dom';
 import './pagesStyles.css';
 import ButtonComponent from "../components/Button";
+import { useEffect, useState } from "react";
 const AlumnsPage = () => {
     const navigate = useNavigate();
 
@@ -43,8 +44,38 @@ const SearchAlumn = () => {
 }
 
 const TableAlumns = () => {
+
+    const [students, setStudents] = useState([]);
+    const [fetchingStudents, setFetchingStudents] = useState(false)
+
+    useEffect(() => {
+        fetchStudents();
+    }, []);
+
+    const fetchStudents = async() => {
+        try{
+        setFetchingStudents(true);
+        const response = await fetch('/api/students',{
+            method: 'GET'
+        });
+        const data = await response.json();
+        setStudents(data);
+    } catch(err) {
+        console.error(err);
+    } finally {
+        setFetchingStudents(false);
+    }
+    }
+
     return (
         <div className="table-style">
+            {
+                fetchingStudents
+                ? <p>Recuperando información...</p>
+                : <>
+                {
+                    !students.length && <p>No hay estudiantes</p>
+                }
             <table>
                 <thead>
                     <tr>
@@ -56,10 +87,25 @@ const TableAlumns = () => {
                 </thead>
                 <tbody>
                     {
-
+                        students.map(student => (
+                            <tr key={student.sid}>
+                                <td>{student.sid}</td>
+                                <td>{student.name}</td>
+                                <td>{student.lastName}</td>
+                                <td>
+                                    <ButtonComponent key={'delete'}
+                                            text="Borrar"
+                                            className='actions-class-back'
+                                    >
+                                    </ButtonComponent>
+                                </td>
+                            </tr>
+                        ))
                     }
                 </tbody>
             </table>
+                </>
+            }
         </div>
     );
 }

@@ -1,10 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import PageContent from '../components/PageContent';
-import './pagesStyles.css';
 import ButtonComponent from '../components/Button';
+import {useForm} from 'react-hook-form';
+import './pagesStyles.css';
 const FormPage = () => {
-
+    
     const navigate = useNavigate();
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
+    const onSubmit = async (values) => {
+        try{
+            const body = {
+                firstName: values.inputNameValue,
+                lastName: values.inputLastNameValue,
+                dni: values.inputDniValue,
+                email: values.inputEmailValue
+            };
+                await fetch(`/api/students/`,{
+                    method: 'POST',
+                    body: JSON.stringify(body)
+                });
+        }catch(err){
+            console.error(err)
+        }
+    }
+
+
     return (
         <PageContent
         headerTitle='Nuevo Alumno'
@@ -17,34 +38,101 @@ const FormPage = () => {
         ]}
         >    
         <div className='content-form'>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-style">
                         <div className="content-label-name">
-                            <label htmlFor="inputName">Nombre:</label>    
+                            <label htmlFor="inputNameValue">Nombre:</label>    
                         </div>
                         <div className="content-input-name">
-                            <input type="text" id="inputName" name="Name" placeholder="Ingrese un nombre.." required/>
+                            <input 
+                            type='text'
+                            placeholder='Ingrese un nombre..'
+                            id='inputNameValue'
+                            {...register('inputNameValue', {
+                                required: {
+                                    value: true,
+                                    message: "Nombre es requerido"
+                                },
+                                maxLength:{
+                                    value: 100,
+                                    message:"Nombre debe tener menor de 100 carácteres"
+                                },
+                            })}/>
                         </div>
+                            {
+                                errors.inputNameValue && <p className='content-input-error-name'>{errors.inputNameValue?.message}</p>
+                            }  
                         <div className="content-label-last">
-                            <label htmlFor="inputLast">Apellido:</label>
+                            <label htmlFor="inputLastNameValue">Apellido:</label>
                         </div>
                         <div className="content-input-last">
-                            <input type="text" name="Last" id="inputLast" placeholder="Ingrese un apellido.." required/>    
+                            <input type="text" placeholder="Ingrese un apellido.." 
+                            id='inputLastNameValue'
+                            {...register('inputLastNameValue', {
+                                required: {
+                                    value: true,
+                                    message: "Apellido es requerido"
+                                },
+                                maxLength: {
+                                    value: 100,
+                                    message: "Apellido debe tener menos de 100 carácteres"
+                                }
+                            })}/>
                         </div>
+                            {
+                                errors.inputLastNameValue && <p className='content-input-error-last'>{errors.inputLastNameValue?.message}</p>
+                            }    
                         <div className="content-label-dni">
-                            <label htmlFor="inputLast">Dni:</label>
+                            <label htmlFor="inputDniValue">Dni:</label>
                         </div>
                         <div className="content-input-dni">
-                            <input type="text" name="Dni" id="inputDni" placeholder="Ingrese un dni.." required/>    
+                            <input type="text" placeholder="Ingrese un dni.." 
+                            id='inputDniValue'
+                            {...register('inputDniValue', {
+                                required:{
+                                    value: true,
+                                    message: "Dni es requerido"
+                                },
+                                maxLength: {
+                                    value: 10,
+                                    message: "Dni debe tener menos de 10 carácteres"
+                                },
+                                pattern: {
+                                    value: /^[0-9]{1,10}$/ ,
+                                    message: "Dni es incorrecto"
+                                }
+                            })} />    
                         </div>
+                            {
+                                errors.inputDniValue && <p className='content-input-error-dni'>{errors.inputDniValue?.message}</p>
+                            }    
                         <div className="content-label-email">
-                            <label htmlFor="inputLast">Email:</label>
+                            <label htmlFor="inputEmailValue">Email:</label>
                         </div>
                         <div className="content-input-email">
-                            <input type="text" name="Dni" id="inputDni" placeholder="Ingrese un email.." required/>    
+                            <input type="text" placeholder="Ingrese un email.." 
+                            id='inputEmailValue'
+                            {...register('inputEmailValue', {
+                                required: {
+                                    value: true,
+                                    message: "Email es requerido"
+                                },
+                                maxLength: {
+                                    value: 100,
+                                    message: "Email debe tener menos de 100 carácteres"
+                                },
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ,
+                                    message: "Email es incorrecto"
+                                }
+                            })}/>    
                         </div>
+                            {
+                                errors.inputEmailValue && <p className='content-input-error-email'>{errors.inputEmailValue?.message}</p>
+                            }
                         <div className='content-input-button action-accepted '>
                             <ButtonComponent
+                            type='submit'
                             text='Aceptar'
                             className='actions-class'
                             >
