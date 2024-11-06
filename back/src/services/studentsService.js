@@ -18,17 +18,27 @@ const createStudent = async (student) => {
     }
 };
 
-const deleteStudent = async (id) => {
+const deleteStudent = async (sid) => {
     try {
-        const result = await StudentsRepository.deleteById(id);
+        const result = await StudentsRepository.deleteBySid(sid);
         return result;
     } catch (err) {
         console.error(`Error ${err}`);
     }
 };
 
+const getStudentsPages = async (search, currentPage, pageSize) => {
+    try{
+        return await StudentsRepository.getStudentsPagination(search, currentPage, pageSize);
+    } catch(err){
+        console.error(err);
+    }
+}
+
+
 module.exports = {
     getStudents,
     createStudent,
-    deleteStudent
+    deleteStudent,
+    getStudentsPages
 }

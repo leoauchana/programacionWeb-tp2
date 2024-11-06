@@ -1,16 +1,20 @@
 const {Router} = require('express');
 const {getStudents, createStudent, deleteStudent} = require('../services/studentsService');
-const {validateBody} = require('../middleware/studentsMiddleware')
+const {validateBody, validateBySid, validateQuerys} = require('../middleware/studentsMiddleware')
 const routerStudents = Router();
 
 routerStudents.get('/', async (req, res) => {
     try{
-        const students = await getStudents();
+        const searchValue = req.query.search ? req.query.search : '';
+        const currentPage = req.query.currentPage ? req.query.currentPage : 1;
+        const pageSize = req.query.pageSize ? req.query.pageSize : 5;
+        const students = await getStudentsPages(searchValue, currentPage, pageSize);
         res.json(students);
     }catch(err){
         res.sendStatus(500);
     }
 });
+
 
 routerStudents.post('/', validateBody, async (req, res) => {
     try{
@@ -21,10 +25,9 @@ routerStudents.post('/', validateBody, async (req, res) => {
     }
 });
 
-routerStudents.delete('/:id', async (req, res) => {
+routerStudents.delete('/:sid', validateBySid, async (req, res) => {
     try {
-        const {id} = req.params;
-        const result = await deleteStudent(id);
+        const result = await deleteStudent(req.params.sid);
         if (result) {
             res.sendStatus(204);
             //console.log('estudiante eliminado con exito');
@@ -38,8 +41,5 @@ routerStudents.delete('/:id', async (req, res) => {
     }
 });
 
-routerStudents.put('/', (req, res) => {
-
-});
 
 module.exports = routerStudents;

@@ -21,6 +21,32 @@ const validateBody = (req, res, next) => {
         next();
 };
 
+const validateBySid = (req, res, next) => {
+    const sid = req.params.sid;
+    if(!sid) {
+        return res.status(404).json({message: `Sid is incorrect ${sid}`});
+    }
+    next();
+}
+
+const validateQuerys = (req, res, next) => {
+    const {search, currentPage, pageSize} = req.query;
+
+    if(!search){
+        return res.status(404).json({message: `Search is incorrect ${sid}`});
+    }
+
+    if(!currentPage){
+        return res.status(404).json({message: `CurrentPage is incorrect ${sid}`});
+    }
+
+    if(!pageSize){
+        return res.status(404).json({message: `PageSize is incorrect ${sid}`});
+    }
+}
+
 module.exports = {
-    validateBody
+    validateBody,
+    validateBySid,
+    validateQuerys
 }

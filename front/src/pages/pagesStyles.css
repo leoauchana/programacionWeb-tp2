@@ -22,6 +22,11 @@ p{
     color: tomato;
 }
 
+ul{
+    margin: 0;
+    padding: 0;
+}
+
 .actions-class {
     background-color: darkturquoise;
     color: white;
@@ -159,6 +164,44 @@ p{
 .button-search:hover{
     background-color: darkslateblue;
     cursor: pointer;
+}
+
+.nav-button{
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-button >*:not(:last-child){
+    margin-right: 3px;
+}
+
+.li-button{
+    margin: 0;
+    list-style: none;
+}
+
+.li-button button{
+    border: 3 solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.li-button button:hover{
+    background-color: paleturquoise;
+}
+
+.button-selected{
+    background-color: aqua;
+}
+
+.pagination-style{
+    display: flex;
+    justify-content: end;
+    margin-top: 5px;
+}
+
+.pagination-style >*:not(:last-child){
+    margin-right: 4px;
 }
 
 .search-alumn{

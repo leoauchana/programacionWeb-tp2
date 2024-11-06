@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const Students = require('../models/students');
 
 const getAll = async () => {
@@ -55,23 +55,39 @@ const getAll = async () => {
     }
   };
 
-  const deleteById = async (id) => {
+  const deleteBySid = async (sid) => {
     try {
-      const student = await Students.findByPk(id);
-      if (!student || student.deleted === 1) {
-        return null;
-      }
-      student.deleted = 1;
-      await student.save();
-      return student;
+      return await Students.update({deleted: 1},{
+        where: {sid: sid}
+      });
     } catch (err) {
       console.error(`Error ${err}`);
     }
   };
 
+  const getStudentsPagination = async (search, currentPage, pageSize) => {
+    try{
+    const offset = ((currentPage -1) * pageSize);
+    return await Students.findAndCountAll({
+      where:{
+        lastName:{
+          [Op.substring]: search
+        },
+        deleted: 0
+      },
+      limit: pageSize,
+      offset
+    });
+  } catch(err){
+    console.error(err);
+    throw err;
+   }
+  }
+
   module.exports = {
     getAll,
     getById,
     createNewStudent,
-    deleteById
+    deleteBySid,
+    getStudentsPagination
   }
