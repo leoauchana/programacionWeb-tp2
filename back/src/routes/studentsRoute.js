@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {getStudents} = require('../services/studentsService');
+const {getStudents, createStudent} = require('../services/studentsService');
 const {validateBody} = require('../middleware/studentsMiddleware')
 const routerStudents = Router();
 
@@ -12,8 +12,13 @@ routerStudents.get('/', async (req, res) => {
     }
 });
 
-routerStudents.post('/', validateBody, (req, res) => {
-    
+routerStudents.post('/', validateBody, async (req, res) => {
+    try{
+    const newStudent = await createStudent(req.body);
+    res.json(newStudent);
+    } catch(err){
+        console.error(`Error ${err}`);
+    }
 });
 
 routerStudents.delete('/', (req, res) => {

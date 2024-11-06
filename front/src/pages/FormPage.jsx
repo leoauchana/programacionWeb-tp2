@@ -5,21 +5,28 @@ import {useForm} from 'react-hook-form';
 import './pagesStyles.css';
 const FormPage = () => {
     
+    const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
-    const {register, handleSubmit, formState: {errors}} = useForm();
-
     const onSubmit = async (values) => {
         try{
             const body = {
-                firstName: values.inputNameValue,
+                name: values.inputNameValue,
                 lastName: values.inputLastNameValue,
                 dni: values.inputDniValue,
                 email: values.inputEmailValue
             };
-                await fetch(`/api/students/`,{
+                const response = await fetch(`/api/students/`,{
                     method: 'POST',
                     body: JSON.stringify(body)
                 });
+                if(response.ok){
+                    window.alert('Estudiante agregado con exito');
+                    reset();
+                    navigate(-1);
+                } else {
+                    const errorData = await response.json();
+                    window.alert(`Error ${errorData.message}`);
+                }
         }catch(err){
             console.error(err)
         }

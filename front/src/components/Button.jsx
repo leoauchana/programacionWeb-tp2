@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-const ButtonComponent = ({type, className, navigation, text = ''}) => {
+const ButtonComponent = ({type, className, onClick, text = ''}) => {
     return (
     <button
     type={type ? type : "button"}
     className={className ? className : ''}
-    onClick={navigation}
+    onClick={onClick}
     >
         {text}
     </button>
@@ -15,7 +15,7 @@ ButtonComponent.propTypes = {
     type: PropTypes.string,
     className: PropTypes.string,
     text: PropTypes.string,
-    navigation: PropTypes.func
+    onClick: PropTypes.func
 };
 
 export default ButtonComponent;

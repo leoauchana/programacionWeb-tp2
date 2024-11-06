@@ -3,6 +3,9 @@ import { useNavigate }  from 'react-router-dom';
 import './pagesStyles.css';
 import ButtonComponent from "../components/Button";
 import { useEffect, useState } from "react";
+
+
+
 const AlumnsPage = () => {
     const navigate = useNavigate();
 
@@ -13,40 +16,59 @@ const AlumnsPage = () => {
         actions={[
             <ButtonComponent key={'add'}
             text="Agregar"
-            navigation={() => navigate('/alumns/form')}
+            onClick={() => navigate('/alumns/form')}
             className='actions-class'
             ></ButtonComponent>,
             <ButtonComponent key={'back'}
             text="Atrás"
-            navigation={() => navigate(-1)}
+            onClick={() => navigate(-1)}
             className='actions-class-back'
             ></ButtonComponent>,
         ]}
         >
-            <SearchAlumn/>  
             <TableAlumns/>  
             <Pagination/>
         </PageContent>
     )
 };
 
-const SearchAlumn = () => {
-    return(
-        <div className="search-alumn">
-            <input type="text" className="text-search" placeholder="Buscar por Apellido" />
-            <ButtonComponent
-            text="Buscar"
-            className="button-search"
-            >
-            </ButtonComponent>
-        </div>
-    )
-}
+// const SearchAlumn = () => {
+
+//     const handleSarch = (lastName) => {
+    
+//     };
+
+//     return(
+//         <div className="search-alumn">
+//             <form onSubmit={handleSarch(input)}>
+//                 <input type="text" className="text-search" placeholder="Buscar por Apellido" value='inputSearchLastName'
+//                 />
+//                 <ButtonComponent
+//                 type='submit'
+//                 text="Buscar"
+//                 className="button-search"
+//                 onClick={handleSarch()}
+//                 >
+//                 </ButtonComponent>
+//             </form>
+//         </div>
+//     )
+// }
 
 const TableAlumns = () => {
 
     const [students, setStudents] = useState([]);
     const [fetchingStudents, setFetchingStudents] = useState(false)
+
+    const handleDelete = () => {
+
+    }
+    // const handleSearch = async () => {
+    // if(searchStudent){
+    //     const student = await fetch(`/api/students?search=${searchStudent}`);
+        
+    // }
+    // }
 
     useEffect(() => {
         fetchStudents();
@@ -65,9 +87,20 @@ const TableAlumns = () => {
     } finally {
         setFetchingStudents(false);
     }
-    }
+    };
 
     return (
+        <>
+        <div className="search-alumn">
+            <input type="text" className="text-search" placeholder="Buscar por Apellido" 
+            />
+            <ButtonComponent key={'search'}
+            type='submit'
+            text="Buscar"
+            className="button-search"
+            >
+            </ButtonComponent>
+        </div>
         <div className="table-style">
             {
                 fetchingStudents
@@ -96,6 +129,7 @@ const TableAlumns = () => {
                                     <ButtonComponent key={'delete'}
                                             text="Borrar"
                                             className='actions-class-back'
+                                            onClick={handleDelete}
                                     >
                                     </ButtonComponent>
                                 </td>
@@ -107,6 +141,7 @@ const TableAlumns = () => {
                 </>
             }
         </div>
+        </>
     );
 }
 

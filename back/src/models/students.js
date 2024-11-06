@@ -49,40 +49,10 @@ class Students extends Model {
       {
         sequelize,
         modelName: "students",
-        timestamps: true,
-        hooks: {
-          beforeCreate: (student) => {
-            student.updatedAt = null;
-          },
-          beforeUpdate: (student) => {
-            student.updatedAt = new Date();
-          },
-        },
+        timestamps: false,
       }
     );
     return this;
-  };
-
-  static getAll = async () => {
-    return await this.findAll({
-      where: {
-        deleted: 0,
-      },
-      attributes: {
-        exclude: "deleted",
-      },
-    });
-  };
-
-  static getById = async (id) => {
-    return await this.findByPk(id, {
-      where: {
-        deleted: 0,
-      },
-      attributes: {
-        exclude: "deleted",
-      },
-    });
   };
 }
 
