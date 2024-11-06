@@ -18,7 +18,17 @@ const createStudent = async (student) => {
     }
 };
 
+const deleteStudent = async (id) => {
+    try {
+        const result = await StudentsRepository.deleteById(id);
+        return result;
+    } catch (err) {
+        console.error(`Error ${err}`);
+    }
+};
+
 module.exports = {
     getStudents,
-    createStudent
+    createStudent,
+    deleteStudent
 }

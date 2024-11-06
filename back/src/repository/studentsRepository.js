@@ -55,8 +55,23 @@ const getAll = async () => {
     }
   };
 
+  const deleteById = async (id) => {
+    try {
+      const student = await Students.findByPk(id);
+      if (!student || student.deleted === 1) {
+        return null;
+      }
+      student.deleted = 1;
+      await student.save();
+      return student;
+    } catch (err) {
+      console.error(`Error ${err}`);
+    }
+  };
+
   module.exports = {
     getAll,
     getById,
-    createNewStudent
+    createNewStudent,
+    deleteById
   }

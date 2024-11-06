@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {getStudents, createStudent} = require('../services/studentsService');
+const {getStudents, createStudent, deleteStudent} = require('../services/studentsService');
 const {validateBody} = require('../middleware/studentsMiddleware')
 const routerStudents = Router();
 
@@ -21,8 +21,21 @@ routerStudents.post('/', validateBody, async (req, res) => {
     }
 });
 
-routerStudents.delete('/', (req, res) => {
-
+routerStudents.delete('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const result = await deleteStudent(id);
+        if (result) {
+            res.sendStatus(204);
+            //console.log('estudiante eliminado con exito');
+        } else {
+            res.sendStatus(404);
+            //console.log('el estudiante no existe');
+        }
+    } catch (err) {
+        console.log(`Error ${err}`);
+        res.sendStatus(500);
+    }
 });
 
 routerStudents.put('/', (req, res) => {
