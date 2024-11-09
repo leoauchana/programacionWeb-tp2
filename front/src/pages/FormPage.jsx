@@ -39,7 +39,7 @@ const FormPage = () => {
         actions={[
             <ButtonComponent key={'back'}
             text="Atrás"
-            navigation={() => navigate(-1)}
+            onClick={() => navigate(-1)}
             className='actions-class-back'
             ></ButtonComponent>
         ]}

@@ -1,17 +1,29 @@
 const {Router} = require('express');
-const {getStudents, createStudent, deleteStudent} = require('../services/studentsService');
-const {validateBody, validateBySid, validateQuerys} = require('../middleware/studentsMiddleware')
+const {getLenghtStudents,getStudentsPages, createStudent, deleteStudent} = require('../services/studentsService');
+const {validateBody, validateBySid} = require('../middleware/studentsMiddleware')
 const routerStudents = Router();
+
 
 routerStudents.get('/', async (req, res) => {
     try{
         const searchValue = req.query.search ? req.query.search : '';
         const currentPage = req.query.currentPage ? req.query.currentPage : 1;
         const pageSize = req.query.pageSize ? req.query.pageSize : 5;
-        const students = await getStudentsPages(searchValue, currentPage, pageSize);
+        const students = await getStudentsPages(searchValue,parseInt(currentPage),parseInt(pageSize));
         res.json(students);
     }catch(err){
         res.sendStatus(500);
+        console.error(err);
+        throw err;
+    }
+});
+
+routerStudents.get('/lenghtStudents', async (req, res) => {
+    try{
+        const lengthStudents = await getLenghtStudents();
+        res.json(lengthStudents);
+    } catch (err) {
+        console.error(`Error in studentsRoute ${err}`)
     }
 });
 
@@ -22,6 +34,7 @@ routerStudents.post('/', validateBody, async (req, res) => {
     res.json(newStudent);
     } catch(err){
         console.error(`Error ${err}`);
+        throw err;
     }
 });
 
@@ -36,8 +49,8 @@ routerStudents.delete('/:sid', validateBySid, async (req, res) => {
             //console.log('el estudiante no existe');
         }
     } catch (err) {
-        console.log(`Error ${err}`);
-        res.sendStatus(500);
+        console.error(`Error ${err}`);
+        throw err;
     }
 });
 

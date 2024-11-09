@@ -39,7 +39,7 @@ const TableAlumns = () => {
     const [inputValueSearch, setInputValueSearch] = useState('');
     const [valueCurrentPage, setValueCurrentPage] = useState(1);
     const [studentsLength, setStudentsLength] = useState(0);
-    //const [reset, setReset] = useState();
+
 
     const handleDelete = async (sid) => {
         try{
@@ -49,6 +49,7 @@ const TableAlumns = () => {
                 });
                 if(response.ok){
                     window.alert(`El estudiante de legajo ${sid} se borro correctamente`);
+                    resetTable();
                 } else {
                     window.alert(`Error al borrar`);
                 }
@@ -77,6 +78,8 @@ const TableAlumns = () => {
     }
 
     const resetTable = () => {
+        findAll();
+        fetchStudents();
         setInputValueSearch('');
     };
 
@@ -85,15 +88,32 @@ const TableAlumns = () => {
         const response = await fetch(`/api/students?search=${inputValueSearch}&currentPage=${1}&pageSize=${valuePagination}`,{
             method: 'GET'
         });
-        const newStudents = response.json();
+        const newStudents = await response.json();
         setStudents(newStudents)
     }
     };
 
     useEffect(() => {
+        findAll();
         fetchStudents();
         resetTable();
-    }, []);
+    }, [valueCurrentPage, valuePagination]);
+
+
+    const findAll = async () => {
+        try{
+            const response = await fetch('/api/students/lenghtStudents',{
+                method: 'GET'
+            })
+            if(response.ok){
+                const studentsAll = await response.json();
+                console.log(studentsAll);
+                setStudentsLength(studentsAll);
+            }
+        }catch(err){
+            console.err(err);
+        }
+    }
 
     const fetchStudents = async() => {
         try{
@@ -102,8 +122,7 @@ const TableAlumns = () => {
             method: 'GET',
         });
         const data = await response.json();
-        setStudentsLength(data.length);
-        setStudents(data);
+        setStudents(data.rows);
     } catch(err) {
         console.error(err);
     } finally {
@@ -183,32 +202,11 @@ const TableAlumns = () => {
                     <nav>
                         <ul className="nav-button">
                             {
-                                Array.from({length: Math.ceil(studentsLength/valuePagination)},
-                                (_,i) => (
-                                    <li key={i+1}
-                                    className="li-button"
-                                    >
-                                        {valueCurrentPage === i + 1 ?
-                                            (
-                                            <button
-                                            className="button-nav button-selected"
-                                            onClick={() => setValueCurrentPage(i+1)}
-                                            >
-                                                {i+1}
-                                            </button>
-                                            ):
-                                            (
-                                            <button
-                                            className="button-nav"
-                                            onClick={() => setValueCurrentPage(i+1)}
-                                            >
-                                                {i+1}
-                                            </button>
-                                            )
-                                        }
-                                    </li>
-                                )
-                            )
+                            Array(Math.ceil(studentsLength / valuePagination)) .fill() .map((_, i) => 
+                                ( <li key={i + 1} className="li-button"> {valueCurrentPage === i + 1 
+                                    ? 
+                                    ( <button className="button-nav button-selected" onClick={() => setValueCurrentPage(i + 1)} > {i + 1} </button> ) 
+                                    : ( <button className="button-nav" onClick={() => setValueCurrentPage(i + 1)} > {i + 1} </button> )} </li> ))
                             }
                         </ul>
                     </nav>

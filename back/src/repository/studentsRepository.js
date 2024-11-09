@@ -25,7 +25,6 @@ const getAll = async () => {
 
   const createNewStudent = async (student) => {
     try{
-        console.log(student);
         const existingStudent = await Students.findOne({
             where:{
                 [Sequelize.Op.or]: [
@@ -35,7 +34,6 @@ const getAll = async () => {
                 deleted: 0
             }
         });
-        console.log(existingStudent);
         if(existingStudent){
             throw new Error(`Ya existe un estudiante con ese email o dni`);
         }
@@ -52,6 +50,7 @@ const getAll = async () => {
         return newStudent;
     } catch(err){
         console.error(`Error ${err}`)
+        throw err;
     }
   };
 
@@ -62,6 +61,7 @@ const getAll = async () => {
       });
     } catch (err) {
       console.error(`Error ${err}`);
+      throw err;
     }
   };
 
@@ -84,10 +84,24 @@ const getAll = async () => {
    }
   }
 
+  const getLenghtAll = async () => {
+    try{
+      const students =  await Students.findAll({
+        where: {
+          deleted: 0
+        }
+      });
+      return students.length;
+    }catch (err) {
+      console.error(`Error in studentsRepository ${err}`)
+    }
+  }
+
   module.exports = {
     getAll,
     getById,
     createNewStudent,
     deleteBySid,
-    getStudentsPagination
+    getStudentsPagination,
+    getLenghtAll
   }
