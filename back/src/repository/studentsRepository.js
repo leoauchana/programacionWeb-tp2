@@ -39,6 +39,7 @@ const createNewStudent = async (student) => {
       where: {
         [Sequelize.Op.or]: [{ email: student.email }, { dni: student.dni }],
       },
+      deleted: 0
     });
     if (existsStudent) {
       throw new Error(`Ya existe un estudiante con ese email o dni`);
@@ -96,18 +97,6 @@ const getStudentsPagination = async (search, currentPage, pageSize) => {
   }
 };
 
-const getLenghtAll = async () => {
-  try {
-    const students = await Students.findAll({
-      where: {
-        deleted: 0,
-      },
-    });
-    return students.length;
-  } catch (err) {
-    console.error(`Error in studentsRepository ${err}`);
-  }
-};
 
 module.exports = {
   getAll,
@@ -115,5 +104,4 @@ module.exports = {
   createNewStudent,
   deleteBySid,
   getStudentsPagination,
-  getLenghtAll,
 };

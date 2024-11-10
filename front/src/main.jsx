@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Layout from './layout/Layout'
-import AlumnsPage from './pages/AlumnsPage';
-import FormPage from './pages/FormPage';
+import AlumnsPage from './pages/students/AlumnsPage';
+import FormPage from './pages/students/FormPage';
 import MainPage from './pages/MainPage';
 import './index.css';
 

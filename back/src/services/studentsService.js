@@ -39,20 +39,11 @@ const getStudentsPages = async (search, currentPage, pageSize) => {
     }
 }
 
-const getLenghtStudents = async () => {
-    try{
-    const lenghtStudents = StudentsRepository.getLenghtAll();
-    return lenghtStudents;
-    } catch (err){
-        console.error(`Error in studentsService ${err}`);
-        throw err;
-    }
-}
 
 module.exports = {
     getStudents,
     createStudent,
     deleteStudent,
     getStudentsPages,
-    getLenghtStudents
+
 }

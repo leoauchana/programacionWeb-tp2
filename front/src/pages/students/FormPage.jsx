@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import PageContent from '../components/PageContent';
-import ButtonComponent from '../components/Button';
+import PageContent from '../../components/PageContent';
+import ButtonComponent from '../../components/Button';
 import {useForm} from 'react-hook-form';
-import './pagesStyles.css';
+import '../pagesStyles.css';
 const FormPage = () => {
     
     const {register, handleSubmit, reset, formState: {errors}} = useForm();

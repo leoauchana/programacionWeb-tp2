@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {getLenghtStudents,getStudentsPages, createStudent, deleteStudent} = require('../services/studentsService');
+const {getStudentsPages, createStudent, deleteStudent} = require('../services/studentsService');
 const {validateBody, validateBySid} = require('../middleware/studentsMiddleware')
 const routerStudents = Router();
 
@@ -14,15 +14,6 @@ routerStudents.get('/', async (req, res) => {
     }catch(err){
         console.error(`Error in studentRoute ${err}`);
         res.status(500).json({message: `Error al devolver datos ${err}`});
-    }
-});
-
-routerStudents.get('/lenghtStudents', async (req, res) => {
-    try{
-        const lengthStudents = await getLenghtStudents();
-        res.json(lengthStudents);
-    } catch (err) {
-        console.error(`Error in studentsRoute ${err}`);
     }
 });
 

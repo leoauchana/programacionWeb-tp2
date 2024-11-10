@@ -1,7 +1,7 @@
-import PageContent from "../components/PageContent";
+import PageContent from "../../components/PageContent";
 import { useNavigate }  from 'react-router-dom';
-import './pagesStyles.css';
-import ButtonComponent from "../components/Button";
+import '../pagesStyles.css';
+import ButtonComponent from "../../components/Button";
 import { useEffect, useState } from "react";
 
 
@@ -39,7 +39,7 @@ const TableAlumns = () => {
     const [inputValueSearch, setInputValueSearch] = useState("");
     const [valueCurrentPage, setValueCurrentPage] = useState(1);
     const [studentsLength, setStudentsLength] = useState(0);
-
+    const [studentsActually, setStudentsActually] = useState(0);
 
     const deleteStudent = async (sid) => {
         try{
@@ -61,12 +61,12 @@ const TableAlumns = () => {
 
     const newPaginationSelected = (value) => {
         setValuePagination(value)
+        setValueCurrentPage(1);
     }
 
     const updateTable = () => {
-        getLenghtStudents();
-        fetchStudents();
         setValueCurrentPage(1);
+        fetchStudents();
         setInputValueSearch('');
     };
 
@@ -79,6 +79,7 @@ const TableAlumns = () => {
             const newStudents = await response.json();
             setStudentsLength(newStudents.count);
             setStudents(newStudents.rows);
+            setStudentsActually(newStudents.count)
         } else {
             const errorData = await response.json();
             window.alert(`${errorData.message}`);
@@ -87,25 +88,8 @@ const TableAlumns = () => {
     };
 
     useEffect(() => {
-        getLenghtStudents();
         fetchStudents();
     }, [valueCurrentPage, valuePagination]);
-
-
-    const getLenghtStudents = async () => {
-        try{
-            const response = await fetch('/api/students/lenghtStudents',{
-                method: 'GET'
-            })
-            if(response.ok){
-                const studentsAll = await response.json();
-                console.log(studentsAll);
-                setStudentsLength(studentsAll);
-            }
-        }catch(err){
-            console.err(err);
-        }
-    }
 
     const fetchStudents = async() => {
         try{
@@ -115,6 +99,8 @@ const TableAlumns = () => {
         });
         const data = await response.json();
         setStudents(data.rows);
+        setStudentsLength(data.count);
+        setStudentsActually(data.rows.length);
     } catch(err) {
         console.error(err);
     } finally {
@@ -180,8 +166,8 @@ const TableAlumns = () => {
                 </tbody>
             </table>
                 <div className="pagination-style">
-                    <label htmlFor="pagesValues">
-                        Items {valuePagination ? valuePagination : 0} en cada página
+                    <label htmlFor="pages-values">
+                        Items {studentsActually} en cada página
                     </label>
                     <select 
                     name="pagesValues" 
