@@ -12,9 +12,8 @@ routerStudents.get('/', async (req, res) => {
         const students = await getStudentsPages(searchValue,parseInt(currentPage),parseInt(pageSize));
         res.json(students);
     }catch(err){
-        res.sendStatus(500);
-        console.error(err);
-        throw err;
+        console.error(`Error in studentRoute ${err}`);
+        res.status(500).json({message: `Error al devolver datos ${err}`});
     }
 });
 
@@ -23,7 +22,7 @@ routerStudents.get('/lenghtStudents', async (req, res) => {
         const lengthStudents = await getLenghtStudents();
         res.json(lengthStudents);
     } catch (err) {
-        console.error(`Error in studentsRoute ${err}`)
+        console.error(`Error in studentsRoute ${err}`);
     }
 });
 
@@ -33,8 +32,8 @@ routerStudents.post('/', validateBody, async (req, res) => {
     const newStudent = await createStudent(req.body);
     res.json(newStudent);
     } catch(err){
-        console.error(`Error ${err}`);
-        throw err;
+        res.status(404).json({message: `Ya existe un estudiante con ese email o dni`,
+        });
     }
 });
 
@@ -43,14 +42,11 @@ routerStudents.delete('/:sid', validateBySid, async (req, res) => {
         const result = await deleteStudent(req.params.sid);
         if (result) {
             res.sendStatus(204);
-            //console.log('estudiante eliminado con exito');
         } else {
             res.sendStatus(404);
-            //console.log('el estudiante no existe');
         }
     } catch (err) {
-        console.error(`Error ${err}`);
-        throw err;
+            res.status.json({message: `Error al borrar ${err}`})
     }
 });
 

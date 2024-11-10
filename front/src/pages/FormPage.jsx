@@ -25,7 +25,7 @@ const FormPage = () => {
                     navigate(-1);
                 } else {
                     const errorData = await response.json();
-                    window.alert(`Error ${errorData.message}`);
+                    window.alert(`${errorData.message}`);
                 }
         }catch(err){
             console.error(err)

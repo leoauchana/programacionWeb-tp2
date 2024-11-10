@@ -5,7 +5,7 @@ const getStudents = async () => {
     const students = await StudentsRepository.getAll();
     return students;
     } catch(err) {
-        console.error(err);
+        console.error(`Error in studentsService ${err}`);
         throw err;
     }
 };
@@ -15,7 +15,7 @@ const createStudent = async (student) => {
     const newStudent = await StudentsRepository.createNewStudent(student);
     return newStudent;
     } catch(err){
-        console.error(`Error ${err}`);
+        console.error(`Error in studentsService ${err}`);
         throw err;
     }
 };
@@ -25,7 +25,7 @@ const deleteStudent = async (sid) => {
         const result = await StudentsRepository.deleteBySid(sid);
         return result;
     } catch (err) {
-        console.error(`Error ${err}`);
+        console.error(`Error in studentsService ${err}`);
         throw err;
     }
 };
@@ -34,7 +34,7 @@ const getStudentsPages = async (search, currentPage, pageSize) => {
     try{
         return await StudentsRepository.getStudentsPagination(search, currentPage, pageSize);
     } catch(err){
-        console.error("Error in getStudentsPagination:", err);
+        console.error(`Error in studentsService ${err}`);
         throw err;
     }
 }
@@ -44,7 +44,7 @@ const getLenghtStudents = async () => {
     const lenghtStudents = StudentsRepository.getLenghtAll();
     return lenghtStudents;
     } catch (err){
-        console.error("Error in getStudentsPagination:", err);
+        console.error(`Error in studentsService ${err}`);
         throw err;
     }
 }

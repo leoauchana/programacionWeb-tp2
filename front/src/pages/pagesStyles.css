@@ -27,6 +27,10 @@ ul{
     padding: 0;
 }
 
+select{
+    height: 100%;
+}
+
 .actions-class {
     background-color: darkturquoise;
     color: white;
@@ -35,6 +39,10 @@ ul{
     border-radius: 5px;
     border: none;
     cursor: pointer;
+}
+
+.actions-class:hover{
+    background-color: lightslategray;
 }
 
 .actions-class-back{
@@ -47,7 +55,7 @@ ul{
     cursor: pointer;
 }
 .actions-class-back:hover{
-    background-color: tomato;
+    background-color: lightslategray;
 }
 
 .action-accepted button:hover{
@@ -186,19 +194,21 @@ ul{
     cursor: pointer;
 }
 
-.li-button button:hover{
-    background-color: paleturquoise;
-}
-
 .button-selected{
-    background-color: aqua;
+    background-color: lightskyblue;
 }
 
 .pagination-style{
     display: flex;
     justify-content: end;
     margin-top: 5px;
+    height: 30px;
 }
+
+.pagination-style  select{
+    height: 100%;
+}
+
 
 .pagination-style >*:not(:last-child){
     margin-right: 4px;
@@ -207,7 +217,7 @@ ul{
 .search-alumn{
     display: flex;
     margin-bottom: 5px;
-
+    height: 30px;
 }
 
 .text-search{
@@ -222,6 +232,10 @@ ul{
         width: 100%;
         border: 1;
         border-collapse: collapse;
+}
+
+.text-pagination{
+    height: 100vh;
 }
 
 .title-main{

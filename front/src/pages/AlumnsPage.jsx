@@ -36,12 +36,12 @@ const TableAlumns = () => {
     const [students, setStudents] = useState([]);
     const [fetchingStudents, setFetchingStudents] = useState(false);
     const [valuePagination, setValuePagination] = useState(5);
-    const [inputValueSearch, setInputValueSearch] = useState('');
+    const [inputValueSearch, setInputValueSearch] = useState("");
     const [valueCurrentPage, setValueCurrentPage] = useState(1);
     const [studentsLength, setStudentsLength] = useState(0);
 
 
-    const handleDelete = async (sid) => {
+    const deleteStudent = async (sid) => {
         try{
             if(sid){
                 const response = await fetch(`/api/students/${sid}`,{
@@ -49,7 +49,7 @@ const TableAlumns = () => {
                 });
                 if(response.ok){
                     window.alert(`El estudiante de legajo ${sid} se borro correctamente`);
-                    resetTable();
+                    updateTable();
                 } else {
                     window.alert(`Error al borrar`);
                 }
@@ -59,48 +59,40 @@ const TableAlumns = () => {
         }
     }
 
-    // const handleSearch = async () => {
-    //     try{
-    //         if(!inputValueSearch)   return;
-    //         const response = await fetch('/api/students',{
-    //             method: 'GET',
-    //         })
-    //         if(response.ok){
-
-    //         }
-    //     }catch(err){
-    //         console.error(err);
-    //     }
-    // }
-
-    const handleNewPagination = (value) => {
+    const newPaginationSelected = (value) => {
         setValuePagination(value)
     }
 
-    const resetTable = () => {
-        findAll();
+    const updateTable = () => {
+        getLenghtStudents();
         fetchStudents();
+        setValueCurrentPage(1);
         setInputValueSearch('');
     };
 
-    const handleSearch = async () => {
+    const filterStudent = async () => {
     if(inputValueSearch){
         const response = await fetch(`/api/students?search=${inputValueSearch}&currentPage=${1}&pageSize=${valuePagination}`,{
             method: 'GET'
         });
-        const newStudents = await response.json();
-        setStudents(newStudents)
-    }
+        if(response.ok){
+            const newStudents = await response.json();
+            setStudentsLength(newStudents.count);
+            setStudents(newStudents.rows);
+        } else {
+            const errorData = await response.json();
+            window.alert(`${errorData.message}`);
+        }
+    } else updateTable();
     };
 
     useEffect(() => {
-        findAll();
+        getLenghtStudents();
         fetchStudents();
-        resetTable();
     }, [valueCurrentPage, valuePagination]);
 
 
-    const findAll = async () => {
+    const getLenghtStudents = async () => {
         try{
             const response = await fetch('/api/students/lenghtStudents',{
                 method: 'GET'
@@ -138,13 +130,15 @@ const TableAlumns = () => {
             className="text-search" 
             placeholder="Buscar por Apellido" 
             value={inputValueSearch}
-            onChange={(e) => setInputValueSearch(e.target.value)}
+            onChange={(e) => {
+                setInputValueSearch(e.target.value);
+            }}
             />
             <ButtonComponent key={'search'}
             type='submit'
             text="Buscar"
-            className="button-search"
-             onClick={() => handleSearch()}
+            className="actions-class"
+             onClick={() => filterStudent()}
             >
             </ButtonComponent>
         </div>
@@ -176,7 +170,7 @@ const TableAlumns = () => {
                                     <ButtonComponent key={'delete'}
                                             text="Borrar"
                                             className='actions-class-back'
-                                            onClick={() => (handleDelete(student.sid))}
+                                            onClick={() => (deleteStudent(student.sid))}
                                     >
                                     </ButtonComponent>
                                 </td>
@@ -193,7 +187,7 @@ const TableAlumns = () => {
                     name="pagesValues" 
                     id="pages-values" 
                     value={valuePagination}
-                    onChange={(e) => handleNewPagination(e.target.value)}
+                    onChange={(e) => newPaginationSelected(e.target.value)}
                     >
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -205,8 +199,21 @@ const TableAlumns = () => {
                             Array(Math.ceil(studentsLength / valuePagination)) .fill() .map((_, i) => 
                                 ( <li key={i + 1} className="li-button"> {valueCurrentPage === i + 1 
                                     ? 
-                                    ( <button className="button-nav button-selected" onClick={() => setValueCurrentPage(i + 1)} > {i + 1} </button> ) 
-                                    : ( <button className="button-nav" onClick={() => setValueCurrentPage(i + 1)} > {i + 1} </button> )} </li> ))
+                                    (<ButtonComponent
+                                    className="actions-class button-selected"
+                                    text={`${i + 1}`}
+                                    onClick={() => setValueCurrentPage(i + 1)}
+                                    /> 
+                                    )
+                                    : 
+                                    (<ButtonComponent
+                                    className="actions-class"
+                                    text={`${i + 1}`}
+                                    onClick={() => setValueCurrentPage(i + 1)}
+                                    />
+                                    )}
+                                    </li>
+                                ))
                             }
                         </ul>
                     </nav>
